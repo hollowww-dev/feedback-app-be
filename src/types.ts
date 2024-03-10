@@ -1,16 +1,16 @@
 export enum Category {
-	UI = 'ui',
-	UX = 'ux',
-	Enhancement = 'enhancement',
-	Bug = 'bug',
-	Feature = 'feature',
+	'UI' = 'ui',
+	'UX' = 'ux',
+	'Enhancement' = 'enhancement',
+	'Bug' = 'bug',
+	'Feature' = 'feature',
 }
 
 export enum Status {
-	Suggestion = 'suggestion',
-	Planned = 'planned',
-	InProgress = 'in-progress',
-	Live = 'live',
+	'Suggestion' = 'suggestion',
+	'Planned' = 'planned',
+	'In-Progress' = 'inprogress',
+	'Live' = 'live',
 }
 
 export type User = {

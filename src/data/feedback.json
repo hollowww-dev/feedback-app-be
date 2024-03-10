@@ -206,7 +206,7 @@
 		"title": "One-click portfolio generation",
 		"category": "feature",
 		"upvotes": 62,
-		"status": "in-progress",
+		"status": "inprogress",
 		"description": "Add ability to create professional looking portfolio from profile.",
 		"comments": [
 			{
@@ -224,7 +224,7 @@
 		"title": "Bookmark challenges",
 		"category": "feature",
 		"upvotes": 31,
-		"status": "in-progress",
+		"status": "inprogress",
 		"description": "Be able to bookmark challenges to take later on.",
 		"comments": [
 			{
@@ -242,7 +242,7 @@
 		"title": "Animated solution screenshots",
 		"category": "bug",
 		"upvotes": 9,
-		"status": "in-progress",
+		"status": "inprogress",
 		"description": "Screenshots of solutions with animations don’t display correctly."
 	},
 	{
