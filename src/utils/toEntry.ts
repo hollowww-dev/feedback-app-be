@@ -178,3 +178,11 @@ export const parseEntry = (entry: unknown): Entry => {
 
 	return parsedEntry;
 };
+
+export const parseEntries = (entries: unknown): Entry[] => {
+	if (!entries || !(entries instanceof Array)) {
+		throw new Error('Incorrect or missing entries');
+	}
+
+	return entries.map((entry: Entry) => parseEntry(entry));
+};

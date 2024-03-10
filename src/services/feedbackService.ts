@@ -2,10 +2,10 @@ import data from '../data/feedback.json';
 
 import { Entry } from '../types';
 
-import { parseEntry } from '../utils/toEntry';
+import { parseEntry, parseEntries } from '../utils/toEntry';
 
 const getAll = (): Entry[] => {
-	return data.map((entry: unknown) => parseEntry(entry));
+	return parseEntries(data);
 };
 
 const getSingle = (id: number): Entry => {
