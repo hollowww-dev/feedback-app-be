@@ -13,6 +13,16 @@ export enum Status {
 	'Live' = 'live',
 }
 
+export interface Entry {
+	id: number;
+	title: string;
+	category: Category;
+	upvotes: number;
+	status: Status;
+	description: string;
+	comments?: number;
+}
+
 export type User = {
 	name: string;
 	username: string;
@@ -31,22 +41,4 @@ export type Comment = {
 	replies?: Reply[];
 };
 
-export interface Entry {
-	id: number;
-	title: string;
-	category: Category;
-	upvotes: number;
-	status: Status;
-	description: string;
-	comments?: number;
-}
-
-export interface EntryDetailed {
-	id: number;
-	title: string;
-	category: Category;
-	upvotes: number;
-	status: Status;
-	description: string;
-	comments?: Comment[];
-}
+export type EntryDetailed = Omit<Entry, 'comments'> & { comments?: Comment[] };
