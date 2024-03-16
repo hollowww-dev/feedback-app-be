@@ -1,16 +1,16 @@
 import data from '../data/feedback.json';
 
-import { Entry } from '../types';
+import { Entry, EntryDetailed } from '../types';
 
-import { parseEntry, parseEntries } from '../utils/toEntry';
+import { parseEntries, parseEntryDetailed } from '../utils/toEntry';
 
 const getAll = (): Entry[] => {
 	return parseEntries(data);
 };
 
-const getSingle = (id: number): Entry => {
+const getSingle = (id: number): EntryDetailed => {
 	const entry = data.find(entry => entry.id === id);
-	return parseEntry(entry);
+	return parseEntryDetailed(entry);
 };
 
 export default { getAll, getSingle };

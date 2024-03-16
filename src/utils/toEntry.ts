@@ -1,6 +1,6 @@
 import { isString, isNumber } from './utils';
 
-import { Entry, Category, Status, Comment, Reply, User } from '../types';
+import { Entry, Category, Status, Comment, Reply, User, EntryDetailed } from '../types';
 
 const parseId = (id: unknown): number => {
 	if (!id || !isNumber(id)) {
@@ -147,6 +147,14 @@ const parseComments = (comments: unknown): Comment[] => {
 	return comments.map((comment: Comment) => parseComment(comment));
 };
 
+const parseCommentsLength = (comments: unknown): number => {
+	if (!comments || !(comments instanceof Array)) {
+		throw new Error('Incorrect or missing comments');
+	}
+
+	return comments.length;
+};
+
 export const parseEntry = (entry: unknown): Entry => {
 	if (!entry || typeof entry !== 'object') {
 		throw new Error('Incorrect or missing entry');
@@ -172,8 +180,10 @@ export const parseEntry = (entry: unknown): Entry => {
 		description: parseDescription(entry.description),
 	};
 
-	if ('comments' in entry) {
-		parsedEntry.comments = parseComments(entry.comments);
+	if (!('comments' in entry)) {
+		parsedEntry.comments = 0;
+	} else {
+		parsedEntry.comments = parseCommentsLength(entry.comments);
 	}
 
 	return parsedEntry;
@@ -185,4 +195,36 @@ export const parseEntries = (entries: unknown): Entry[] => {
 	}
 
 	return entries.map((entry: Entry) => parseEntry(entry));
+};
+
+export const parseEntryDetailed = (entry: unknown): EntryDetailed => {
+	if (!entry || typeof entry !== 'object') {
+		throw new Error('Incorrect or missing entry');
+	}
+
+	if (
+		!('id' in entry) ||
+		!('title' in entry) ||
+		!('category' in entry) ||
+		!('upvotes' in entry) ||
+		!('status' in entry) ||
+		!('description' in entry)
+	) {
+		throw new Error('Some fields are missing');
+	}
+
+	const parsedEntry: EntryDetailed = {
+		id: parseId(entry.id),
+		title: parseTitle(entry.title),
+		category: parseCategory(entry.category),
+		upvotes: parseUpvotes(entry.upvotes),
+		status: parseStatus(entry.status),
+		description: parseDescription(entry.description),
+	};
+
+	if ('comments' in entry) {
+		parsedEntry.comments = parseComments(entry.comments);
+	}
+
+	return parsedEntry;
 };
