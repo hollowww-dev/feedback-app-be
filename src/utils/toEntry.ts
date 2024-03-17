@@ -152,7 +152,15 @@ const parseCommentsLength = (comments: unknown): number => {
 		throw new Error('Incorrect or missing comments');
 	}
 
-	return comments.length;
+	let length = comments.length;
+
+	comments.forEach(comment => {
+		if ('replies' in comment) {
+			length += comment.replies.length;
+		}
+	});
+
+	return length;
 };
 
 export const parseEntry = (entry: unknown): Entry => {
@@ -180,10 +188,10 @@ export const parseEntry = (entry: unknown): Entry => {
 		description: parseDescription(entry.description),
 	};
 
-	if (!('comments' in entry)) {
-		parsedEntry.comments = 0;
-	} else {
+	if ('comments' in entry) {
 		parsedEntry.comments = parseCommentsLength(entry.comments);
+	} else {
+		parsedEntry.comments = 0;
 	}
 
 	return parsedEntry;
