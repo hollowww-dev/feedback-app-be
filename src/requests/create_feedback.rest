@@ -1,0 +1,8 @@
+POST http://localhost:3000/api/feedback
+Content-Type: application/json
+
+{
+			"title": "Add a dark theme option",
+			"category": "feature",
+			"description": "It would help people with light sensitivities and who prefer dark mode."
+}

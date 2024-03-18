@@ -1,3 +1,7 @@
-const PORT = 3000;
+require('dotenv').config();
 
-export default { PORT };
+const PORT = process.env.PORT;
+const MONGODB_URL = process.env.MONGODB_URL;
+const SECRET = process.env.SECRET;
+
+export default { PORT, MONGODB_URL, SECRET };

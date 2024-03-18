@@ -1,9 +1,9 @@
 import { isString, isNumber } from './utils';
 
-import { Entry, Category, Status, Comment, Reply, User, EntryDetailed } from '../types';
+import { Entry, Category, Status, Comment, Reply, EntryDetailed, Author, NewEntry } from '../types';
 
-const parseId = (id: unknown): number => {
-	if (!id || !isNumber(id)) {
+const parseId = (id: unknown): string => {
+	if (!id || !isString(id)) {
 		throw new Error('Incorrect or missing ID');
 	}
 
@@ -35,7 +35,7 @@ const parseCategory = (category: unknown): Category => {
 };
 
 const parseUpvotes = (upvotes: unknown): number => {
-	if (!upvotes || !isNumber(upvotes)) {
+	if (typeof upvotes === 'undefined' || !isNumber(upvotes)) {
 		throw new Error('Incorrect or missing upvotes');
 	}
 
@@ -72,7 +72,7 @@ const parseContent = (content: unknown): string => {
 	return content;
 };
 
-const parseUser = (user: unknown): User => {
+const parseUser = (user: unknown): Author => {
 	if (!user || typeof user !== 'object') {
 		throw new Error('Incorrect or missing user');
 	}
@@ -82,31 +82,22 @@ const parseUser = (user: unknown): User => {
 	if (!('username' in user) || !isString(user.username)) {
 		throw new Error('Incorrect or missing users username');
 	}
-
 	return {
 		name: user.name,
 		username: user.username,
 	};
 };
 
-const parseReplyingto = (replyingTo: unknown): string => {
-	if (!replyingTo || !isString(replyingTo)) {
-		throw new Error('Incorrect or missing replying-to');
-	}
-
-	return replyingTo;
-};
-
 const parseReply = (reply: unknown): Reply => {
 	if (!reply || typeof reply !== 'object') {
 		throw new Error('Incorrect or missing reply');
 	}
-	if (!('content' in reply) || !('replyingTo' in reply) || !('user' in reply)) {
+	if (!('id' in reply) || !('content' in reply) || !('replyingTo' in reply) || !('user' in reply)) {
 		throw new Error('Some fields are missing');
 	}
 	return {
+		id: parseId(reply.id),
 		content: parseContent(reply.content),
-		replyingTo: parseReplyingto(reply.replyingTo),
 		user: parseUser(reply.user),
 	};
 };
@@ -235,4 +226,21 @@ export const parseEntryDetailed = (entry: unknown): EntryDetailed => {
 	}
 
 	return parsedEntry;
+};
+
+export const toNewEntry = (entry: unknown): NewEntry => {
+	if (!entry || typeof entry !== 'object') {
+		throw new Error('Incorrect or missing entry');
+	}
+	if (!('title' in entry) || !('category' in entry) || !('description' in entry)) {
+		throw new Error('Some fields are missing');
+	}
+
+	const parsedNewFeedback = {
+		title: parseTitle(entry.title),
+		description: parseDescription(entry.description),
+		category: parseCategory(entry.category),
+	};
+
+	return parsedNewFeedback;
 };

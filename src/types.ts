@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export enum Category {
 	'UI' = 'ui',
 	'UX' = 'ux',
@@ -14,7 +16,7 @@ export enum Status {
 }
 
 export interface Entry {
-	id: number;
+	id: string;
 	title: string;
 	category: Category;
 	upvotes: number;
@@ -23,22 +25,42 @@ export interface Entry {
 	comments?: number;
 }
 
+export type NewEntry = Omit<Entry, 'id' | 'comments' | 'status' | 'upvotes'>;
+
 export type User = {
 	name: string;
 	username: string;
+	passwordHash: string;
+	upvoted: Types.ObjectId[];
+	permissions: number;
+};
+
+export type Author = Omit<User, 'passwordHash' | 'upvoted' | 'permissions'>;
+
+export type NewUser = Omit<User, 'passwordHash' | 'upvoted' | 'permissions'> & {
+	password: string;
+	permissions?: number;
+};
+
+export type LoggedUser = Omit<User, 'passwordHash'> & { token: string };
+
+export type Credentials = {
+	username: string;
+	password: string;
 };
 
 export type Reply = {
+	id: string;
 	content: string;
-	replyingTo: string;
-	user: User;
+	user: Author;
 };
 
 export type Comment = {
-	id: number;
+	id: string;
 	content: string;
-	user: User;
+	user: Author;
 	replies?: Reply[];
 };
 
 export type EntryDetailed = Omit<Entry, 'comments'> & { comments?: Comment[] };
+export type EntryDetailedWoutId = Omit<EntryDetailed, 'id'>;
