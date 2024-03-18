@@ -32,6 +32,5 @@ export const login = async (credentials: Credentials): Promise<LoggedUser> => {
 		username: user.username,
 		name: user.name,
 		upvoted: user.upvoted,
-		permissions: user.permissions,
 	};
 };

@@ -10,7 +10,7 @@ export const getAll = async (): Promise<Entry[]> => {
 };
 
 export const getSingle = async (id: string): Promise<EntryDetailed> => {
-	const entry = await feedbackModel.findById(id);
+	const entry = await feedbackModel.findOne({ _id: id });
 	const parsedEntry = parseEntryDetailed(entry);
 
 	return parsedEntry;

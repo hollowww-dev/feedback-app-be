@@ -1,5 +1,5 @@
 import { NewUser } from '../types';
-import { isNumber, isString } from './utils';
+import { isString } from './utils';
 
 const parseName = (name: unknown): string => {
 	if (!name || !isString(name)) {
@@ -27,14 +27,6 @@ const parsePassword = (password: unknown): string => {
 	return password;
 };
 
-const parsePermissions = (permissions: unknown): number => {
-	if (!permissions || !isNumber(permissions)) {
-		throw new Error('Incorrect or missing permissions');
-	}
-
-	return permissions;
-};
-
 export const toNewUser = (user: unknown): NewUser => {
 	if (!user || typeof user !== 'object') {
 		throw new Error('Incorrect or missing user');
@@ -49,10 +41,6 @@ export const toNewUser = (user: unknown): NewUser => {
 		username: parseUsername(user.username),
 		password: parsePassword(user.password),
 	};
-
-	if ('permissions' in user) {
-		parsedUser.permissions = parsePermissions(user.permissions);
-	}
 
 	return parsedUser;
 };

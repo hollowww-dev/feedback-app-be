@@ -8,13 +8,13 @@ loginRouter.post('/', async (req, res) => {
 	try {
 		const credentials = toCredentials(req.body);
 		const loggedUser = await login(credentials);
-		res.json(loggedUser);
+		return res.json(loggedUser);
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.';
 		if (error instanceof Error) {
 			errorMessage += ' Error: ' + error.message;
 		}
-		res.status(400).send(errorMessage);
+		return res.status(400).send(errorMessage);
 	}
 });
 

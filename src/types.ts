@@ -32,14 +32,12 @@ export type User = {
 	username: string;
 	passwordHash: string;
 	upvoted: Types.ObjectId[];
-	permissions: number;
 };
 
-export type Author = Omit<User, 'passwordHash' | 'upvoted' | 'permissions'>;
+export type Author = Omit<User, 'passwordHash' | 'upvoted'>;
 
-export type NewUser = Omit<User, 'passwordHash' | 'upvoted' | 'permissions'> & {
+export type NewUser = Omit<User, 'passwordHash' | 'upvoted'> & {
 	password: string;
-	permissions?: number;
 };
 
 export type LoggedUser = Omit<User, 'passwordHash'> & { token: string };

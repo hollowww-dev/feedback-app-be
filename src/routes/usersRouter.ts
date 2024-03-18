@@ -8,13 +8,13 @@ usersRouter.post('/', async (req, res) => {
 	try {
 		const newUser = toNewUser(req.body);
 		const addedUser = await addUser(newUser);
-		res.json(addedUser);
+		return res.json(addedUser);
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.';
 		if (error instanceof Error) {
 			errorMessage += ' Error: ' + error.message;
 		}
-		res.status(400).send(errorMessage);
+		return res.status(400).send(errorMessage);
 	}
 });
 

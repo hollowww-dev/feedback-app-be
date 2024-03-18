@@ -11,7 +11,6 @@ export const addUser = async (user: NewUser): Promise<User> => {
 		username: user.username,
 		passwordHash,
 		upvoted: [],
-		permissions: user.permissions === 1 ? 1 : 0,
 	});
 
 	const savedUser = await newUser.save();
