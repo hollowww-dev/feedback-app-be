@@ -40,7 +40,12 @@ export type NewUser = Omit<User, 'passwordHash' | 'upvoted'> & {
 	password: string;
 };
 
-export type LoggedUser = Omit<User, 'passwordHash'> & { token: string };
+export type LoggedUser = Omit<User, 'passwordHash'>;
+
+export type UserForToken = {
+	username: string;
+	id: Types.ObjectId;
+};
 
 export type Credentials = {
 	username: string;
