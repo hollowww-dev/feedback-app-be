@@ -7,7 +7,9 @@ import bcrypt from 'bcrypt';
 
 import config from '../utils/config';
 
-export const authenticate = async (credentials: Credentials): Promise<string> => {
+export const authenticate = async (
+	credentials: Credentials
+): Promise<LoggedUser & { token: string }> => {
 	const user = await userModel.findOne({ username: credentials.username });
 	const passwordCorrect =
 		user === null ? false : await bcrypt.compare(credentials.password, user.passwordHash);
@@ -31,7 +33,12 @@ export const authenticate = async (credentials: Credentials): Promise<string> =>
 
 	const token: string = jsonwebtoken.sign(userForToken, config.SECRET);
 
-	return token;
+	return {
+		token,
+		username: user.username,
+		name: user.name,
+		upvoted: user.upvoted,
+	};
 };
 
 export const getUser = async (token: string): Promise<LoggedUser> => {
