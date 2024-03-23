@@ -1,4 +1,4 @@
-import { Credentials, LoggedUser, UserForToken } from '../types';
+import { Credentials, LoggedUser, LoggedUserWoutToken, UserForToken } from '../types';
 
 import userModel from '../models/user';
 
@@ -7,9 +7,7 @@ import bcrypt from 'bcrypt';
 
 import config from '../utils/config';
 
-export const authenticate = async (
-	credentials: Credentials
-): Promise<LoggedUser & { token: string }> => {
+export const authenticate = async (credentials: Credentials): Promise<LoggedUser> => {
 	const user = await userModel.findOne({ username: credentials.username });
 	const passwordCorrect =
 		user === null ? false : await bcrypt.compare(credentials.password, user.passwordHash);
@@ -35,13 +33,15 @@ export const authenticate = async (
 
 	return {
 		token,
-		username: user.username,
-		name: user.name,
-		upvoted: user.upvoted,
+		user: {
+			username: user.username,
+			name: user.name,
+			upvoted: user.upvoted,
+		},
 	};
 };
 
-export const getUser = async (token: string): Promise<LoggedUser> => {
+export const getUser = async (token: string): Promise<LoggedUserWoutToken> => {
 	if (!config.SECRET) {
 		throw new Error('Secret password is not declared');
 	}
@@ -58,5 +58,5 @@ export const getUser = async (token: string): Promise<LoggedUser> => {
 		throw new Error('Some fields are missing');
 	}
 
-	return user;
+	return { user };
 };
