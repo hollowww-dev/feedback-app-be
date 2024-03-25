@@ -1,5 +1,3 @@
-import { Types } from 'mongoose';
-
 export enum Category {
 	'UI' = 'ui',
 	'UX' = 'ux',
@@ -49,7 +47,7 @@ export type LoggedUserWoutToken = Omit<LoggedUser, 'token'>;
 
 export type UserForToken = {
 	username: string;
-	id: Types.ObjectId;
+	id: string;
 };
 
 export type Credentials = {

@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import feedbackModel from '../models/feedback';
 import userModel from '../models/user';
 import { NewEntry, Status, EntryDetailed, EntryDetailedWoutId, Entry } from '../types';
@@ -31,7 +30,7 @@ export const addFeedback = async (feedback: NewEntry): Promise<EntryDetailed> =>
 	return savedFeedback;
 };
 
-export const upvote = async (entryId: Entry['id'], userId: Types.ObjectId): Promise<Entry> => {
+export const upvote = async (entryId: Entry['id'], userId: string): Promise<Entry> => {
 	const entry = await feedbackModel.findOne({ _id: entryId });
 
 	if (!entry) {

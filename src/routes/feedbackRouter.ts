@@ -58,13 +58,14 @@ feedbackRouter.post('/:id/vote', middleware.tokenExtractor, async (req, res) => 
 	if (!req.token) {
 		return res.status(401).send('Invalid token');
 	}
-	const { id } = req.params;
 
 	if (!config.SECRET) {
 		throw new Error('Secret password is not declared');
 	}
 
 	const decodedToken = jsonwebtoken.verify(req.token, config.SECRET) as UserForToken;
+
+	const { id } = req.params;
 	try {
 		const entry = await upvote(id, decodedToken.id);
 		return res.json(entry);

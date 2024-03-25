@@ -26,7 +26,7 @@ export const authenticate = async (credentials: Credentials): Promise<LoggedUser
 
 	const userForToken: UserForToken = {
 		username: user.username,
-		id: user._id,
+		id: user.id,
 	};
 
 	const token: string = jsonwebtoken.sign(userForToken, config.SECRET);
