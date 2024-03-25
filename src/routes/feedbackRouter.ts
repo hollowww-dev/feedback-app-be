@@ -4,7 +4,11 @@ const feedbackRouter = express.Router();
 import { Types } from 'mongoose';
 
 import { toNewEntry } from '../utils/toEntry';
-import { getAll, getSingle, addFeedback } from '../services/feedbackService';
+import { getAll, getSingle, addFeedback, upvote } from '../services/feedbackService';
+import middleware from '../utils/middleware';
+import jsonwebtoken from 'jsonwebtoken';
+import config from '../utils/config';
+import { UserForToken } from '../types';
 
 feedbackRouter.get('/', async (_req, res) => {
 	try {
@@ -41,6 +45,29 @@ feedbackRouter.post('/', async (req, res) => {
 		const newFeedback = toNewEntry(req.body);
 		const savedFeedback = await addFeedback(newFeedback);
 		return res.json(savedFeedback);
+	} catch (error: unknown) {
+		let errorMessage = 'Something went wrong.';
+		if (error instanceof Error) {
+			errorMessage += ' Error: ' + error.message;
+		}
+		return res.status(400).send(errorMessage);
+	}
+});
+
+feedbackRouter.post('/:id/vote', middleware.tokenExtractor, async (req, res) => {
+	if (!req.token) {
+		return res.status(401).send('Invalid token');
+	}
+	const { id } = req.params;
+
+	if (!config.SECRET) {
+		throw new Error('Secret password is not declared');
+	}
+
+	const decodedToken = jsonwebtoken.verify(req.token, config.SECRET) as UserForToken;
+	try {
+		const entry = await upvote(id, decodedToken.id);
+		return res.json(entry);
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.';
 		if (error instanceof Error) {

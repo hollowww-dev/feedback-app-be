@@ -31,7 +31,7 @@ export type User = {
 	name: string;
 	username: string;
 	passwordHash: string;
-	upvoted: Types.ObjectId[];
+	upvoted: string[];
 };
 
 export type Author = Omit<User, 'passwordHash' | 'upvoted'>;
@@ -41,11 +41,11 @@ export type NewUser = Omit<User, 'passwordHash' | 'upvoted'> & {
 };
 
 export type LoggedUser = {
-	token: string,
-	user: Omit<User, 'passwordHash'>
+	token: string;
+	user: Omit<User, 'passwordHash'>;
 };
 
-export type LoggedUserWoutToken = Omit<LoggedUser, 'token'>
+export type LoggedUserWoutToken = Omit<LoggedUser, 'token'>;
 
 export type UserForToken = {
 	username: string;

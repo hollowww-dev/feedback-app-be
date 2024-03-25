@@ -41,7 +41,7 @@ export const authenticate = async (credentials: Credentials): Promise<LoggedUser
 	};
 };
 
-export const getUser = async (token: string): Promise<LoggedUserWoutToken> => {
+export const getUser = async (token: LoggedUser['token']): Promise<LoggedUserWoutToken> => {
 	if (!config.SECRET) {
 		throw new Error('Secret password is not declared');
 	}

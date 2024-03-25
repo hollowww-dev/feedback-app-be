@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema<User>({
 		type: String,
 		required: [true, 'Password is required'],
 	},
-	upvoted: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feedback' }],
+	upvoted: [{ type: String }],
 });
 
 userSchema.set('toJSON', {
