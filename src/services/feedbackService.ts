@@ -43,16 +43,15 @@ export const upvote = async (entryId: Entry['id'], userId: string): Promise<Entr
 		throw new Error('User not found');
 	}
 
-	if (!user.upvoted.includes(entry._id.toString())) {
+	if (!user.upvoted.includes(entry.id)) {
 		entry.upvotes++;
-		user.upvoted = [...user.upvoted, entry._id.toString()];
+		user.upvoted = [...user.upvoted, entry.id];
 	} else {
 		entry.upvotes--;
-		user.upvoted = user.upvoted.filter(id => id !== entry._id.toString());
+		user.upvoted = user.upvoted.filter(id => id !== entry.id);
 	}
 
 	await entry.save();
-
 	await user.save();
 
 	const parsedEntry = parseEntry(entry);

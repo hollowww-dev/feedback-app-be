@@ -8,8 +8,8 @@ import middleware from '../utils/middleware';
 loginRouter.post('/', async (req, res) => {
 	try {
 		const credentials = toCredentials(req.body);
-		const token = await authenticate(credentials);
-		return res.json(token);
+		const user = await authenticate(credentials);
+		return res.json(user);
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.';
 		if (error instanceof Error) {

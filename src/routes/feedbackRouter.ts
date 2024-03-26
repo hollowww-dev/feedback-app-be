@@ -66,6 +66,7 @@ feedbackRouter.post('/:id/vote', middleware.tokenExtractor, async (req, res) => 
 	const decodedToken = jsonwebtoken.verify(req.token, config.SECRET) as UserForToken;
 
 	const { id } = req.params;
+
 	try {
 		const entry = await upvote(id, decodedToken.id);
 		return res.json(entry);
