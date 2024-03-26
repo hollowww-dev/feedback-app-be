@@ -1,6 +1,13 @@
 import feedbackModel from '../models/feedback';
 import userModel from '../models/user';
-import { NewEntry, Status, EntryDetailed, EntryDetailedWoutId, Entry } from '../types';
+import {
+	NewEntry,
+	Status,
+	EntryDetailed,
+	EntryDetailedWoutId,
+	Entry,
+	LoggedUserWoutToken,
+} from '../types';
 import { parseEntries, parseEntry, parseEntryDetailed } from '../utils/toEntry';
 
 export const getAll = async (): Promise<Entry[]> => {
@@ -30,7 +37,10 @@ export const addFeedback = async (feedback: NewEntry): Promise<EntryDetailed> =>
 	return savedFeedback;
 };
 
-export const upvote = async (entryId: Entry['id'], userId: string): Promise<Entry> => {
+export const upvote = async (
+	entryId: Entry['id'],
+	userId: string
+): Promise<{entry: Entry} & LoggedUserWoutToken> => {
 	const entry = await feedbackModel.findOne({ _id: entryId });
 
 	if (!entry) {
@@ -55,5 +65,5 @@ export const upvote = async (entryId: Entry['id'], userId: string): Promise<Entr
 	await user.save();
 
 	const parsedEntry = parseEntry(entry);
-	return parsedEntry;
+	return { entry: parsedEntry, user };
 };
